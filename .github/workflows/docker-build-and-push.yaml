@@ -55,7 +55,7 @@ jobs:
       - name: Checkout GitOps repository
         uses: actions/checkout@v4
         with:
-          repository: eramirez2701/gitops-code
+          repository: ernram/gitops-code
           token: ${{ secrets.GH_PAT }}
           path: gitops-code
 
