@@ -51,3 +51,24 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.SHA_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Checkout GitOps repository
+        uses: actions/checkout@v4
+        with:
+          repository: eramirez2701/gitops-code
+          token: ${{ secrets.GH_PAT }}
+          path: gitops-code
+
+      - name: Update image tag in values file
+        run: |
+          cd gitops-code
+          yq eval '.image.tag = "${{ env.SHA_TAG }}"' -i values-dev.yaml
+          
+      - name: Commit and push changes
+        run: |
+          cd gitops-code
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add values-dev.yaml
+          git commit -m "Update image tag to ${{ env.SHA_TAG }}"
+          git push
