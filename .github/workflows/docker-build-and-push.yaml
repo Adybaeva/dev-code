@@ -53,7 +53,7 @@ jobs:
       - name: Checkout GitOps repository
         uses: actions/checkout@v4
         with:
-          repository: Adybaeva/dev-code
+          repository: Adybaeva/gitops-code
           token: ${{ secrets.GH_PAT }}
           path: gitops-code
 
